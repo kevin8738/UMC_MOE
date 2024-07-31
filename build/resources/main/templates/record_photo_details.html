@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Record Photo Details</title>
+</head>
+<body>
+<h1 th:text="${recordPhoto.recordPage.exhibition != null ? recordPhoto.recordPage.exhibition.name : recordPhoto.recordPage.popupStore.name}">Record Name</h1>
+<img th:src="@{${recordPhoto.photoUrl}}" th:alt="${recordPhoto.id}"/>
+<p th:text="${recordPhotoBody.body}">Record Body</p>
+</body>
+</html>

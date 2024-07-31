@@ -1,0 +1,278 @@
+<<<<<<< HEAD
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Authentication Example</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            background-color: #f4f4f4;-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            height: 100vh;-->
+<!--            margin: 0;-->
+<!--        }-->
+
+<!--        .container {-->
+<!--            background-color: #fff;-->
+<!--            padding: 20px;-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+
+<!--        h1 {-->
+<!--            text-align: center;-->
+<!--            color: #333;-->
+<!--        }-->
+
+<!--        .form-container {-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        input {-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            margin: 10px 0;-->
+<!--            border: 1px solid #ccc;-->
+<!--            border-radius: 4px;-->
+<!--        }-->
+
+<!--        button {-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            background-color: #5cb85c;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            border-radius: 4px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        button:hover {-->
+<!--            background-color: #4cae4c;-->
+<!--        }-->
+
+<!--        p {-->
+<!--            color: #d9534f;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <h1>Authentication Example</h1>-->
+
+<!--    &lt;!&ndash; Registration Form &ndash;&gt;-->
+<!--    <div class="form-container">-->
+<!--        <h2>Register</h2>-->
+<!--        <input type="text" id="reg-phone" placeholder="Phone Number" required>-->
+<!--        <input type="text" id="reg-nickname" placeholder="Nickname" required>-->
+<!--        <input type="password" id="reg-password" placeholder="Password" required>-->
+<!--        <input type="password" id="reg-confirm-password" placeholder="Confirm Password" required>-->
+<!--        <button onclick="register()">Register</button>-->
+<!--        <p id="reg-message"></p>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Phone Number Check Form &ndash;&gt;-->
+<!--    <div class="form-container">-->
+<!--        <h2>Check Phone Number</h2>-->
+<!--        <input type="text" id="check-phone" placeholder="Phone Number" required>-->
+<!--        <button onclick="checkPhoneNumber()">Check</button>-->
+<!--        <p id="check-message"></p>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Login Form &ndash;&gt;-->
+<!--    <div class="form-container">-->
+<!--        <h2>Login</h2>-->
+<!--        <input type="text" id="login-phone" placeholder="Phone Number" required>-->
+<!--        <input type="password" id="login-password" placeholder="Password" required>-->
+<!--        <button onclick="login()">Login</button>-->
+<!--        <p id="login-message"></p>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Reset Password Form &ndash;&gt;-->
+<!--    <div class="form-container">-->
+<!--        <h2>Reset Password</h2>-->
+<!--        <input type="text" id="reset-phone" placeholder="Phone Number" required>-->
+<!--        <input type="text" id="reset-confirm-phone" placeholder="Confirm Phone Number" required>-->
+<!--        <button onclick="resetPassword()">Reset Password</button>-->
+<!--        <p id="reset-message"></p>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>-->
+<!--<script>-->
+<!--    const apiBaseUrl = 'http://localhost:8080/api/users'; // API 기본 URL-->
+
+<!--    // 회원가입 함수-->
+<!--    async function register() {-->
+<!--        const phoneNumber = document.getElementById('reg-phone').value;-->
+<!--        const nickname = document.getElementById('reg-nickname').value;-->
+<!--        const password = document.getElementById('reg-password').value;-->
+<!--        const confirmPassword = document.getElementById('reg-confirm-password').value;-->
+<!--        const messageElement = document.getElementById('reg-message');-->
+
+<!--        try {-->
+<!--            const response = await axios.post(`${apiBaseUrl}/join`, {-->
+<!--                phoneNumber,-->
+<!--                nickname,-->
+<!--                password,-->
+<!--                confirmPassword-->
+<!--            });-->
+
+<!--            messageElement.style.color = 'green';-->
+<!--            messageElement.innerText = response.data.message;-->
+<!--        } catch (error) {-->
+<!--            messageElement.style.color = 'red';-->
+<!--            messageElement.innerText = error.response.data.message || 'Registration failed';-->
+<!--        }-->
+<!--    }-->
+
+<!--    // 전화번호 중복 확인 함수-->
+<!--    async function checkPhoneNumber() {-->
+<!--        const phoneNumber = document.getElementById('check-phone').value;-->
+<!--        const messageElement = document.getElementById('check-message');-->
+
+<!--        try {-->
+<!--            const response = await axios.get(`${apiBaseUrl}/check-phoneNumber`, {-->
+<!--                params: { phoneNumber }-->
+<!--            });-->
+
+<!--            messageElement.style.color = response.data.isSuccess ? 'green' : 'red';-->
+<!--            messageElement.innerText = response.data.message;-->
+<!--        } catch (error) {-->
+<!--            messageElement.style.color = 'red';-->
+<!--            messageElement.innerText = error.response.data.message || 'Phone number check failed';-->
+<!--        }-->
+<!--    }-->
+
+<!--    // 로그인 함수-->
+<!--    async function login() {-->
+<!--        const phoneNumber = document.getElementById('login-phone').value;-->
+<!--        const password = document.getElementById('login-password').value;-->
+<!--        const messageElement = document.getElementById('login-message');-->
+
+<!--        try {-->
+<!--            const response = await axios.post(`${apiBaseUrl}/login`, {-->
+<!--                phoneNumber,-->
+<!--                password-->
+<!--            });-->
+
+<!--            messageElement.style.color = 'green';-->
+<!--            messageElement.innerText = response.data.message || 'Login successful!';-->
+
+<!--            // 로그인 성공 시 JWT 토큰을 로컬 스토리지에 저장-->
+<!--            localStorage.setItem('jwt', response.data.jwt);-->
+<!--        } catch (error) {-->
+<!--            messageElement.style.color = 'red';-->
+<!--            messageElement.innerText = error.response.data.message || 'Login failed';-->
+<!--        }-->
+<!--    }-->
+
+<!--    // 비밀번호 재설정 함수-->
+<!--    async function resetPassword() {-->
+<!--        const phoneNumber = document.getElementById('reset-phone').value;-->
+<!--        const confirmPhoneNumber = document.getElementById('reset-confirm-phone').value;-->
+<!--        const messageElement = document.getElementById('reset-message');-->
+
+<!--        try {-->
+<!--            const response = await axios.post(`${apiBaseUrl}/reset-password`, {-->
+<!--                phoneNumber,-->
+<!--                confirmPhoneNumber-->
+<!--            });-->
+
+<!--            messageElement.style.color = 'green';-->
+<!--            messageElement.innerText = response.data;-->
+<!--        } catch (error) {-->
+<!--            messageElement.style.color = 'red';-->
+<!--            messageElement.innerText = error.response.data || 'Failed to reset password';-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Login Test</title>
+    <script>
+        let jwtToken = '';
+
+        function login(provider) {
+            const redirectUri = `http://localhost:8080/auth/${provider}/callback`;
+            const clientId = {
+                kakao: 'a090ed16ad7cf9039104c87a03989c38',
+                naver: 'q6EE5D8e5hxql9xl1rzh',
+                google: '56882231819-eler1td32o26rjorconut5jkdffasekf.apps.googleusercontent.com'
+            }[provider];
+
+            const authUrl = {
+                kakao: `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`,
+                naver: `https://nid.naver.com/oauth2.0/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`,
+                google: `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`
+            }[provider];
+
+            window.location.href = authUrl;
+        }
+
+        async function sendRequest() {
+            if (!jwtToken) {
+                alert("Please login first.");
+                return;
+            }
+
+            const response = await fetch('http://localhost:8080/your-secured-endpoint', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                alert("Request failed: " + response.statusText);
+                return;
+            }
+
+            const data = await response.json();
+            console.log(data);
+            alert("Request successful: " + JSON.stringify(data));
+        }
+
+        function setJwtToken(token) {
+            jwtToken = token;
+            document.getElementById('tokenDisplay').textContent = `JWT Token: ${jwtToken}`;
+        }
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            if (token) {
+                setJwtToken(token);
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Social Login Test</h1>
+<button onclick="login('kakao')">Login with Kakao</button>
+<button onclick="login('naver')">Login with Naver</button>
+<button onclick="login('google')">Login with Google</button>
+
+<h2>JWT Token</h2>
+<p id="tokenDisplay">JWT Token will be displayed here after login.</p>
+
+<h2>Send Request</h2>
+<button onclick="sendRequest()">Send Request with JWT Token</button>
+</body>
+</html>
+>>>>>>> 2a1b47c53e50be52577f77cffbbd6e9bd293ba33

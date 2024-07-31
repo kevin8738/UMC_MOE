@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Login Test</title>
+    <script>
+        async function socialLogin(provider) {
+            // Redirect to the provider's login page
+            window.location.href = `/oauth2/authorization/${provider}`;
+        }
+
+        async function logout() {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                alert('No token found. Please login first.');
+                return;
+            }
+
+            const response = await fetch('/user/social-logout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                localStorage.removeItem('jwtToken');
+                alert('Logout successful.');
+            } else {
+                alert('Logout failed.');
+            }
+
+
+
+
+            if (response.ok) {
+                localStorage.removeItem('jwtToken');
+                alert('Logout successful.');
+            } else {
+                alert('Logout failed.');
+            }
+        }
+
+        async function checkAuthentication() {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                alert('No token found. Please login first.');
+                return;
+            }
+
+            const response = await fetch('/user/authenticated', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const text = await response.text();
+                alert(text);
+            } else {
+                alert('Authentication check failed.');
+            }
+        }
+
+        // Listen for messages from the OAuth2 callback
+        window.addEventListener('message', function(event) {
+            if (event.origin !== window.location.origin) {
+                return;
+            }
+            const token = event.data.token;
+            if (token) {
+                localStorage.setItem('jwtToken', token);
+                alert('Login successful. Token saved.');
+            }
+        });
+
+        // Extract JWT token from URL if present
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            if (token) {
+                localStorage.setItem('jwtToken', token);
+                alert('Login successful. Token saved.');
+
+            }
+        }
+
+    </script>
+</head>
+<body>
+<h1>Social Login Test</h1>
+<button onclick="socialLogin('kakao')">Login with Kakao</button>
+<button onclick="socialLogin('naver')">Login with Naver</button>
+<button onclick="socialLogin('google')">Login with Google</button>
+
+<h2>Actions</h2>
+<button onclick="checkAuthentication()">Check Authentication</button>
+<button onclick="logout()">Logout</button>
+</body>
+</html>

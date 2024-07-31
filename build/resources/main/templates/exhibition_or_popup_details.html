@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Exhibition or Popup Details</title>
+</head>
+<body>
+<h1 th:text="${recordPage.exhibition != null ? recordPage.exhibition.name : recordPage.popupStore.name}">Record Name</h1>
+<img th:src="@{${photo.photo}}" th:alt="recordPhotos"/>
+<p>Start Date: <span th:text="${recordPage.exhibition != null ? recordPage.exhibition.startDate : recordPage.popupStore.startDate}">Start Date</span></p>
+<p>End Date: <span th:text="${recordPage.exhibition != null ? recordPage.exhibition.endDate : recordPage.popupStore.endDate}">End Date</span></p>
+
+<div th:each="photo : ${recordPhotos}">
+    <a th:href="@{/record/{userId}/{id}/photo/{photoId}(userId=${userId}, id=${recordPage.id}, photoId=${photo.id})}">
+        <img th:src="@{${photo.photoUrl}}" th:alt="${photo.id}"/>
+    </a>
+</div>
+
+<div>
+    <span th:if="${currentPage > 0}">
+        <a th:href="@{/record/{userId}/{id}(userId=${userId}, id=${recordPage.id}, page=${currentPage - 1})}">Previous</a>
+    </span>
+    <span th:if="${currentPage < totalPages - 1}">
+        <a th:href="@{/record/{userId}/{id}(userId=${userId}, id=${recordPage.id}, page=${currentPage + 1})}">Next</a>
+    </span>
+</div>
+</body>
+</html>
