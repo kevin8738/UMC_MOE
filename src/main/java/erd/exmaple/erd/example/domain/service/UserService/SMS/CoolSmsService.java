@@ -16,10 +16,9 @@ public class CoolSmsService {
     // 인증번호를 저장하기 위한 ConcurrentHashMap
     private ConcurrentHashMap<String, VerificationCode> verificationCodes = new ConcurrentHashMap<>();
 
-    //@Value("${coolsms.api.key}") 깃에 올릴땐 지우고 올리겠씁니다. 테스트 필요하면 말씀해주십쇼
+    @Value("${coolsms.api.key}")
     private String apiKey; // CoolSMS API 키
-
-    //@Value("${coolsms.api.secret}")
+    @Value("${coolsms.api.secret}")
     private String apiSecret; // CoolSMS API 시크릿
 
     @Value("01037764343")
