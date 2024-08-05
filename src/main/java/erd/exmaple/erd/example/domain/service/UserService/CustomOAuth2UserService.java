@@ -1,8 +1,5 @@
 package erd.exmaple.erd.example.domain.service.UserService;
 
-
-
-
 import erd.exmaple.erd.example.domain.UserEntity;
 import erd.exmaple.erd.example.domain.enums.Provider;
 import erd.exmaple.erd.example.domain.jwt.JwtUtil;
@@ -48,11 +45,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userEntity.setProviderId(providerId);
             userEntity.setProvider(Provider.valueOf(provider.toUpperCase()));
             userEntity.setNickname(name);
-            userEntity.setEmail(email); // 이메일 테입르 추가함
+            userEntity.setEmail(email);
             userEntity.setPassword("defaultPassword");
-            userEntity.setPhoneNumber(generateRandomPhoneNumber()); // 랜덤 더미 전화번호 설정
+            userEntity.setPhoneNumber(generateRandomPhoneNumber());
             userRepository.save(userEntity);
         }
+
         // JWT 토큰 생성
         String jwtToken = jwtUtil.generateToken(userEntity.getPhoneNumber());
 
@@ -62,7 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private String generateRandomPhoneNumber() {
         Random random = new Random();
-        StringBuilder phoneNumber = new StringBuilder("101"); //phoneNumber가 NULL값 방지 및 중복방지
+        StringBuilder phoneNumber = new StringBuilder("101");
         for (int i = 0; i < 8; i++) {
             phoneNumber.append(random.nextInt(10));
         }
