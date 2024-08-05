@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecordPageResponseDTO {
+    private Long recordPageId;
     private String photo;
     private String name;
     private LocalDateTime startDate;
