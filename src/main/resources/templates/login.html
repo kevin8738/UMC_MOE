@@ -6,18 +6,17 @@
     <title>Social Login Test</title>
     <script>
         async function socialLogin(provider) {
-            // Redirect to the provider's login page
-            window.location.href = `/oauth2/authorization/${provider}`;
+            window.location.href = `https://umc.memoryofexhibition.com/oauth2/authorization/${provider}`;
         }
 
         async function logout() {
-            const token = localStorage.getItem('jwtToken');
+            const token = getToken();
             if (!token) {
                 alert('No token found. Please login first.');
                 return;
             }
 
-            const response = await fetch('/user/social-logout', {
+            const response = await fetch('https://umc.memoryofexhibition.com/user/social-logout', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -26,17 +25,7 @@
             });
 
             if (response.ok) {
-                localStorage.removeItem('jwtToken');
-                alert('Logout successful.');
-            } else {
-                alert('Logout failed.');
-            }
-
-
-
-
-            if (response.ok) {
-                localStorage.removeItem('jwtToken');
+                removeToken();
                 alert('Logout successful.');
             } else {
                 alert('Logout failed.');
@@ -44,13 +33,13 @@
         }
 
         async function checkAuthentication() {
-            const token = localStorage.getItem('jwtToken');
+            const token = getToken();
             if (!token) {
                 alert('No token found. Please login first.');
                 return;
             }
 
-            const response = await fetch('/user/authenticated', {
+            const response = await fetch('https://umc.memoryofexhibition.com/user/authenticated', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -66,29 +55,60 @@
             }
         }
 
-        // Listen for messages from the OAuth2 callback
+        async function sendApiRequest() {
+            const token = getToken();
+            if (!token) {
+                alert('No token found. Please login first.');
+                return;
+            }
+
+            const response = await fetch('https://umc.memoryofexhibition.com/your_api_endpoint', { // 실제 API 엔드포인트로 대체
+                method: 'GET', // 또는 'POST'
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+            } else {
+                console.error('Error:', response.statusText);
+            }
+        }
+
+        function getToken() {
+            return localStorage.getItem('jwtToken');
+        }
+
+        function setToken(token) {
+            localStorage.setItem('jwtToken', token);
+        }
+
+        function removeToken() {
+            localStorage.removeItem('jwtToken');
+        }
+
         window.addEventListener('message', function(event) {
             if (event.origin !== window.location.origin) {
                 return;
             }
             const token = event.data.token;
             if (token) {
-                localStorage.setItem('jwtToken', token);
+                setToken(token);
                 alert('Login successful. Token saved.');
             }
         });
 
-        // Extract JWT token from URL if present
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const token = urlParams.get('token');
             if (token) {
-                localStorage.setItem('jwtToken', token);
+                setToken(token);
                 alert('Login successful. Token saved.');
-
             }
         }
-
     </script>
 </head>
 <body>
@@ -100,5 +120,6 @@
 <h2>Actions</h2>
 <button onclick="checkAuthentication()">Check Authentication</button>
 <button onclick="logout()">Logout</button>
+<button onclick="sendApiRequest()">Send API Request</button>
 </body>
 </html>
