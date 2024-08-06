@@ -1,6 +1,7 @@
 package erd.exmaple.erd.example.domain.controller;
 
 import erd.exmaple.erd.example.domain.ExhibitionEntity;
+import erd.exmaple.erd.example.domain.dto.ExhibitionResponseDTO;
 import erd.exmaple.erd.example.domain.service.SpecService.ExhibitionLatestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,8 +20,8 @@ public class ExhibitionLatestController {
 
 
     @GetMapping("/latest")
-    public ResponseEntity<Page<ExhibitionEntity>> getAllExhibitions(Pageable pageable) {
-        Page<ExhibitionEntity> exhibitions = exhibitionLatestService.getAllExhibitions(pageable);
+    public ResponseEntity<Page<ExhibitionResponseDTO>> getAllExhibitions(Pageable pageable) {
+        Page<ExhibitionResponseDTO> exhibitions = exhibitionLatestService.getAllExhibitions(pageable);
         return ResponseEntity.ok(exhibitions);
     }
 }

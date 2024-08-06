@@ -1,6 +1,7 @@
 package erd.exmaple.erd.example.domain.service.SpecService;
 
 import erd.exmaple.erd.example.domain.ExhibitionEntity;
+import erd.exmaple.erd.example.domain.dto.ExhibitionResponseDTO;
 import erd.exmaple.erd.example.domain.repository.ExhibitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,8 +16,9 @@ public class ExhibitionPopularService {
     @Autowired
     private ExhibitionRepository exhibitionRepository;
 
-    public Page<ExhibitionEntity> getTopLikedExhibitions(Pageable pageable) {
-        return exhibitionRepository.findAllByOrderByLikesCountDesc(pageable);
+    public Page<ExhibitionResponseDTO> getTopLikedExhibitions(Pageable pageable) {
+        Page<ExhibitionEntity> exhibitionEntities = exhibitionRepository.findAllByOrderByLikesCountDesc(pageable);
+        return exhibitionEntities.map(ExhibitionResponseDTO::new);
     }
 }
 

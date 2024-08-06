@@ -75,6 +75,7 @@ public class RecordService {
                     .map(follow -> follow.getHeart() != null ? follow.getHeart().name() : "INACTIVE")
                     .orElse("ACTIVE");
             return RecordPageResponseDTO.builder()
+                    .recordPageId(recordPage.getId())
                     .photo(photoEntity != null ? photoEntity.getPhoto() : null)
                     .name(name)
                     .startDate((recordPage.getExhibition() != null) ? recordPage.getExhibition().getStartDate().atStartOfDay() : recordPage.getPopupStore().getStartDate().atStartOfDay())
