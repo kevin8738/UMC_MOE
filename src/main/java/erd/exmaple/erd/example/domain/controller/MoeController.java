@@ -2,6 +2,7 @@ package erd.exmaple.erd.example.domain.controller;
 
 import erd.exmaple.erd.example.domain.dto.ExhibitionDTO;
 import erd.exmaple.erd.example.domain.dto.PopupStoreDTO;
+import erd.exmaple.erd.example.domain.dto.FilterResultsDTO;
 import erd.exmaple.erd.example.domain.dto.UserDTO;
 import erd.exmaple.erd.example.domain.enums.Region;
 import erd.exmaple.erd.example.domain.service.RegionService;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/Moe")
+@RequestMapping("/")
 public class MoeController {
 
     private static final Logger log = LoggerFactory.getLogger(MoeController.class);
@@ -63,5 +64,26 @@ public class MoeController {
         model.addAttribute("popupStores", popupStores);
 
         return "main";
+    }
+
+    @GetMapping("/main/filter")
+    @ResponseBody
+    public FilterResultsDTO filterResults(@RequestParam(required = false) Region region,
+                                          @RequestParam(required = false) String district) {
+        List<ExhibitionDTO> exhibitions;
+        List<PopupStoreDTO> popupStores;
+
+        if (region == null && district == null) {
+            exhibitions = regionService.getAllExhibitions();
+            popupStores = regionService.getAllPopupStores();
+        } else if (region != null && (district == null || district.isEmpty())) {
+            exhibitions = regionService.getExhibitionsByRegion(region);
+            popupStores = regionService.getPopupStoresByRegion(region);
+        } else {
+            exhibitions = regionService.getExhibitionsByDistrict(district);
+            popupStores = regionService.getPopupStoresByDistrict(district);
+        }
+
+        return new FilterResultsDTO(exhibitions, popupStores);
     }
 }
