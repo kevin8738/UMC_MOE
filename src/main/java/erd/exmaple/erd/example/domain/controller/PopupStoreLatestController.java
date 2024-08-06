@@ -2,6 +2,7 @@ package erd.exmaple.erd.example.domain.controller;
 
 import erd.exmaple.erd.example.domain.ExhibitionEntity;
 import erd.exmaple.erd.example.domain.Popup_StoreEntity;
+import erd.exmaple.erd.example.domain.dto.PopupStoreResponseDTO;
 import erd.exmaple.erd.example.domain.service.SpecService.ExhibitionLatestService;
 import erd.exmaple.erd.example.domain.service.SpecService.PopupStoreLatestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class PopupStoreLatestController {
 
 
     @GetMapping("/latest")
-    public ResponseEntity<Page<Popup_StoreEntity>> getAllExhibitions(Pageable pageable) {
-        Page<Popup_StoreEntity> popupStores = popupStoreLatestService.getAllPopupStores(pageable);
+    public ResponseEntity<Page<PopupStoreResponseDTO>> getAllPopupStores(Pageable pageable) {
+        Page<PopupStoreResponseDTO> popupStores = popupStoreLatestService.getAllPopupStores(pageable);
         return ResponseEntity.ok(popupStores);
     }
 }

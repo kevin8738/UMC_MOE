@@ -1,6 +1,7 @@
 package erd.exmaple.erd.example.domain.controller;
 
 import erd.exmaple.erd.example.domain.ExhibitionEntity;
+import erd.exmaple.erd.example.domain.dto.ExhibitionResponseDTO;
 import erd.exmaple.erd.example.domain.service.SpecService.ExhibitionPopularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,8 +25,8 @@ public class ExhibitionPopularController {
      * @return 좋아요 순으로 정렬된 전시회 목록
      */
     @GetMapping("/top-liked")
-    public ResponseEntity<Page<ExhibitionEntity>> getTopLikedExhibitions(Pageable pageable) {
-        Page<ExhibitionEntity> exhibitions = exhibitionPopularService.getTopLikedExhibitions(pageable);
+    public ResponseEntity<Page<ExhibitionResponseDTO>> getTopLikedExhibitions(Pageable pageable) {
+        Page<ExhibitionResponseDTO> exhibitions = exhibitionPopularService.getTopLikedExhibitions(pageable);
         return ResponseEntity.ok(exhibitions);
     }
 }
