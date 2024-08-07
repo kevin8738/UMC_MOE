@@ -23,6 +23,7 @@ public class ExhibitionResponseDTO {
     private String photoUrl; // 사진 URL 필드 추가
     private LocalDate startDate;
     private LocalDate endDate;
+    private boolean heart;
     private Region regions;
     private District district;
 
@@ -34,6 +35,7 @@ public class ExhibitionResponseDTO {
         this.photoUrl = entity.getPhotoUrl();
         this.startDate = entity.getStartDate();
         this.endDate = entity.getEndDate();
+        this.heart = entity.isHeart();
         this.regions = entity.getRegions();
         this.district = entity.getDistrict();
     }
