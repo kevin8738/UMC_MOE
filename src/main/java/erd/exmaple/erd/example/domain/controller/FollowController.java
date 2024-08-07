@@ -8,8 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -23,10 +21,22 @@ public class FollowController {
     private FollowService followService;
 
     @GetMapping("/page/{userId}")
-    public String getFollowPage(@PathVariable Long userId, Model model) {
-        // 사용자 ID를 모델에 추가
-        model.addAttribute("userId", userId);
-        return "followPage"; // followPage.html 템플릿을 반환
+    public ResponseEntity<Map<String, Object>> getFollowPage(@PathVariable Long userId, @PageableDefault(size = 5) Pageable pageable) {
+        try {
+            Page<FollowDTO> followsPage = followService.getUserFollowsByLatest(userId, pageable);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("userId", userId);
+            response.put("follows", followsPage.getContent());
+            response.put("totalPages", followsPage.getTotalPages());
+            response.put("totalElements", followsPage.getTotalElements());
+            response.put("currentPage", followsPage.getNumber());
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null); // 500 에러 반환
+        }
     }
 
     @GetMapping("/latest/{userId}")
