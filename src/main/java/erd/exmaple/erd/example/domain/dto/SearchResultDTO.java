@@ -19,4 +19,5 @@ public class SearchResultDTO {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private boolean followed;
+    private boolean isPopupStore;
 }
