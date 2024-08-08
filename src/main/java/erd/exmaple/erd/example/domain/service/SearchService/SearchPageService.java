@@ -110,6 +110,7 @@ public class SearchPageService {
                 .startDate(exhibition.getStartDate().atStartOfDay())
                 .endDate(exhibition.getEndDate().atStartOfDay())
                 .followed(followed)
+                .isPopupStore(false)
                 .build();
     }
 
@@ -121,6 +122,7 @@ public class SearchPageService {
                 .startDate(popupStore.getStartDate().atStartOfDay())
                 .endDate(popupStore.getEndDate().atStartOfDay())
                 .followed(followed)
+                .isPopupStore(true)
                 .build();
     }
 }
