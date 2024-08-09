@@ -8,6 +8,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class FilterResultsDTO {
-    private List<ExhibitionDTO> exhibitions;
-    private List<PopupStoreDTO> popupStores;
+    private List<ExhibitionDTO> topLikedExhibitions;
+    private List<ExhibitionDTO> latestExhibitions;
+    private List<PopupStoreDTO> topLikedPopupStores;
+    private List<PopupStoreDTO> latestPopupStores;
 }
+
