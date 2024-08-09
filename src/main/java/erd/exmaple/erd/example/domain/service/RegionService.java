@@ -8,6 +8,8 @@ import erd.exmaple.erd.example.domain.enums.District;
 import erd.exmaple.erd.example.domain.enums.Region;
 import erd.exmaple.erd.example.domain.repository.ExhibitionRepository;
 import erd.exmaple.erd.example.domain.repository.PopupStoreRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,45 +30,123 @@ public class RegionService {
         return District.getDistrictsByRegion(region);
     }
 
+    // 전체 전시회 목록
     public List<ExhibitionDTO> getAllExhibitions() {
         return exhibitionRepository.findAll().stream()
-                .map(this::convertToDTO)
+                .map(this::convertToExhibitionDTO)
                 .collect(Collectors.toList());
     }
 
+    // 전체 팝업스토어 목록
     public List<PopupStoreDTO> getAllPopupStores() {
         return popupStoreRepository.findAll().stream()
-                .map(this::convertToDTO)
+                .map(this::convertToPopupStoreDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<ExhibitionDTO> getExhibitionsByRegion(Region regions) {
-        return exhibitionRepository.findByRegions(regions).stream()
-                .map(this::convertToDTO)
+    // 지역별 전시회 목록
+    public List<ExhibitionDTO> getExhibitionsByRegion(Region region) {
+        return exhibitionRepository.findByRegions(region).stream()
+                .map(this::convertToExhibitionDTO)
                 .collect(Collectors.toList());
     }
 
+    // 지역별 팝업스토어 목록
+    public List<PopupStoreDTO> getPopupStoresByRegion(Region region) {
+        return popupStoreRepository.findByRegions(region).stream()
+                .map(this::convertToPopupStoreDTO)
+                .collect(Collectors.toList());
+    }
+
+    // 구별 전시회 목록
     public List<ExhibitionDTO> getExhibitionsByDistrict(String district) {
         District districtEnum = District.valueOf(district);
         return exhibitionRepository.findByDistrict(districtEnum).stream()
-                .map(this::convertToDTO)
+                .map(this::convertToExhibitionDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<PopupStoreDTO> getPopupStoresByRegion(Region regions) {
-        return popupStoreRepository.findByRegions(regions).stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
-
+    // 구별 팝업스토어 목록
     public List<PopupStoreDTO> getPopupStoresByDistrict(String district) {
         District districtEnum = District.valueOf(district);
         return popupStoreRepository.findByDistrict(districtEnum).stream()
-                .map(this::convertToDTO)
+                .map(this::convertToPopupStoreDTO)
                 .collect(Collectors.toList());
     }
 
-    private ExhibitionDTO convertToDTO(ExhibitionEntity entity) {
+    // 전체 전시회 인기순 목록
+    public Page<ExhibitionDTO> getAllTopLikedExhibitions(Pageable pageable) {
+        return exhibitionRepository.findAllByOrderByLikesCountDesc(pageable)
+                .map(this::convertToExhibitionDTO);
+    }
+
+    // 전체 전시회 최신순 목록
+    public Page<ExhibitionDTO> getAllLatestExhibitions(Pageable pageable) {
+        return exhibitionRepository.findAllByOrderByCreatedAtDesc(pageable)
+                .map(this::convertToExhibitionDTO);
+    }
+
+    // 전체 팝업스토어 인기순 목록
+    public Page<PopupStoreDTO> getAllTopLikedPopupStores(Pageable pageable) {
+        return popupStoreRepository.findAllByOrderByLikesCountDesc(pageable)
+                .map(this::convertToPopupStoreDTO);
+    }
+
+    // 전체 팝업스토어 최신순 목록
+    public Page<PopupStoreDTO> getAllLatestPopupStores(Pageable pageable) {
+        return popupStoreRepository.findAllByOrderByCreatedAtDesc(pageable)
+                .map(this::convertToPopupStoreDTO);
+    }
+
+    // 지역별 전시회 인기순 목록
+    public Page<ExhibitionDTO> getTopLikedExhibitionsByRegion(Region region, Pageable pageable) {
+        return exhibitionRepository.findAllByRegionsOrderByLikesCountDesc(region, pageable)
+                .map(this::convertToExhibitionDTO);
+    }
+
+    // 지역별 전시회 최신순 목록
+    public Page<ExhibitionDTO> getLatestExhibitionsByRegion(Region region, Pageable pageable) {
+        return exhibitionRepository.findAllByRegionsOrderByCreatedAtDesc(region, pageable)
+                .map(this::convertToExhibitionDTO);
+    }
+
+    // 지역별 팝업스토어 인기순 목록
+    public Page<PopupStoreDTO> getTopLikedPopupStoresByRegion(Region region, Pageable pageable) {
+        return popupStoreRepository.findAllByRegionsOrderByLikesCountDesc(region, pageable)
+                .map(this::convertToPopupStoreDTO);
+    }
+
+    // 지역별 팝업스토어 최신순 목록
+    public Page<PopupStoreDTO> getLatestPopupStoresByRegion(Region region, Pageable pageable) {
+        return popupStoreRepository.findAllByRegionsOrderByCreatedAtDesc(region, pageable)
+                .map(this::convertToPopupStoreDTO);
+    }
+
+    // 구별 전시회 인기순 목록
+    public Page<ExhibitionDTO> getTopLikedExhibitionsByDistrict(District district, Pageable pageable) {
+        return exhibitionRepository.findAllByDistrictOrderByLikesCountDesc(district, pageable)
+                .map(this::convertToExhibitionDTO);
+    }
+
+    // 구별 전시회 최신순 목록
+    public Page<ExhibitionDTO> getLatestExhibitionsByDistrict(District district, Pageable pageable) {
+        return exhibitionRepository.findAllByDistrictOrderByCreatedAtDesc(district, pageable)
+                .map(this::convertToExhibitionDTO);
+    }
+
+    // 구별 팝업스토어 인기순 목록
+    public Page<PopupStoreDTO> getTopLikedPopupStoresByDistrict(District district, Pageable pageable) {
+        return popupStoreRepository.findAllByDistrictOrderByLikesCountDesc(district, pageable)
+                .map(this::convertToPopupStoreDTO);
+    }
+
+    // 구별 팝업스토어 최신순 목록
+    public Page<PopupStoreDTO> getLatestPopupStoresByDistrict(District district, Pageable pageable) {
+        return popupStoreRepository.findAllByDistrictOrderByCreatedAtDesc(district, pageable)
+                .map(this::convertToPopupStoreDTO);
+    }
+
+    private ExhibitionDTO convertToExhibitionDTO(ExhibitionEntity entity) {
         return new ExhibitionDTO(
                 entity.getId(),
                 entity.getName(),
@@ -85,7 +165,7 @@ public class RegionService {
         );
     }
 
-    private PopupStoreDTO convertToDTO(Popup_StoreEntity entity) {
+    private PopupStoreDTO convertToPopupStoreDTO(Popup_StoreEntity entity) {
         return new PopupStoreDTO(
                 entity.getId(),
                 entity.getName(),
