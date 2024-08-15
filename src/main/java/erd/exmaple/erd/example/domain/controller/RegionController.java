@@ -1,5 +1,6 @@
 package erd.exmaple.erd.example.domain.controller;
 
+import erd.exmaple.erd.example.domain.enums.District;
 import erd.exmaple.erd.example.domain.enums.Region;
 import erd.exmaple.erd.example.domain.service.RegionService;
 import jakarta.servlet.http.HttpSession;
@@ -24,11 +25,11 @@ public class RegionController {
     }
 
     @PostMapping("/filter")
-    public String setFilter(@RequestParam(required = false) Region region,
-                            @RequestParam(required = false) String district,
+    public String setFilter(@RequestParam(name = "region", required = false) Region region,
+                            @RequestParam(name = "districts", required = false) String districts,
                             HttpSession session) {
         session.setAttribute("filterRegion", region);
-        session.setAttribute("filterDistrict", district);
+        session.setAttribute("filterDistricts", districts);
         return "redirect:/Moe/main";
     }
 
@@ -40,3 +41,6 @@ public class RegionController {
                 .collect(Collectors.toList());
     }
 }
+
+
+
