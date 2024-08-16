@@ -68,6 +68,9 @@ dependencies {
 	//implementation 'net.nurigo:sdk:4.2.7'
 	implementation group: 'net.nurigo', name: 'javaSDK', version: '2.2'
 }
+tasks.withType(JavaCompile) {
+	options.compilerArgs << '-parameters'
+}
 
 tasks.named('test') {
 	useJUnitPlatform()
