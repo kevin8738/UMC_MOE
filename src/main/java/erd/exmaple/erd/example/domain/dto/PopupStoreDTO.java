@@ -1,5 +1,7 @@
 package erd.exmaple.erd.example.domain.dto;
 
+import erd.exmaple.erd.example.domain.enums.District;
+import erd.exmaple.erd.example.domain.enums.Region;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -22,7 +24,7 @@ public class PopupStoreDTO {
     private LocalDateTime searchDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String regions;
-    private String district;
+    private Region regions;
+    private District district;
 
 }
