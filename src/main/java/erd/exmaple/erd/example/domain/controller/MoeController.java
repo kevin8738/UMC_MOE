@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/")
+@RequestMapping("/Moe")
 public class MoeController {
 
     private static final Logger log = LoggerFactory.getLogger(MoeController.class);
