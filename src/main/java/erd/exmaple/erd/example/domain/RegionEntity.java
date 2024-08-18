@@ -24,14 +24,17 @@ public class RegionEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,columnDefinition = "VARCHAR(10)")
-    private Region region;
+    private Region regions;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,columnDefinition = "VARCHAR(800)")
     private District district;
 
     @OneToMany(mappedBy = "region",cascade = CascadeType.REMOVE, orphanRemoval = true,fetch = FetchType.LAZY)
-    private List<RegionEntity> RegionEntityList = new ArrayList<>();
+    private List<ExhibitionEntity> ExhibitionEntityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "region",cascade = CascadeType.REMOVE, orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<Popup_StoreEntity> Popup_StoreEntityList = new ArrayList<>();
 
 
 
