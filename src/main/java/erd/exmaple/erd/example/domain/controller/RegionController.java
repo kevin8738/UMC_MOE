@@ -30,7 +30,7 @@ public class RegionController {
                             HttpSession session) {
         session.setAttribute("filterRegion", region);
         session.setAttribute("filterDistricts", districts);
-        return "redirect:/Moe/main";
+        return "redirect:/main";
     }
 
     @GetMapping("/districts/{region}")
